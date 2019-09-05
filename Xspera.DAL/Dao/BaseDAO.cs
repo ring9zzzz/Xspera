@@ -136,7 +136,17 @@ namespace Xspera.DAL.Dao
         public IList<T> FindAllReference(Expression<Func<T, bool>> selectQuery,string reference,
          int pageNumber = -1, int pageSize = -1)
         {
-            var queryable = this.Context.Set<T>().Include(reference).Where(selectQuery);
+            IQueryable<T> queryable;
+            var references = reference.Split(",");
+            if (references.Length > 1)
+            {
+                queryable = this.Context.Set<T>().Include(references[0]).Include(references[1]).Where(selectQuery);
+            }
+            else
+            {
+                queryable = this.Context.Set<T>().Include(references[0]).Where(selectQuery);
+            }
+           
             if (pageNumber != -1 && pageSize != -1)
             {
                 var skipItems = (pageNumber - 1) * pageSize;

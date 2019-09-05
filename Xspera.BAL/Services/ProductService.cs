@@ -21,15 +21,17 @@ namespace Xspera.BAL.Services
 
         public List<Product> GetProduct(int brandId = 0)
         {
+            var productDao = this._repository.GetDao<Product>();
             if (brandId > 0)
             {
                 var brandDao = this._repository.GetDao<Brand>();
-                var brand = brandDao.FindAllReference(c => c.Id > 0, "Product.Review.User").Where(x=>x.Id == brandId).FirstOrDefault();
-                return brand.Product.ToList();
+                var existedBrand = brandDao.Find(x => x.Id == brandId).FirstOrDefault();
+                var productsByBrand = productDao.FindAllReference(c => c.BrandId == existedBrand.Id, "Brand,Review.User").ToList();
+                return productsByBrand;
             }
-            var productDao = this._repository.GetDao<Product>();
-            var product = productDao.FindAllReference(c => c.Id > 0, "Review.User").OrderByDescending(x => x.DateCreated).Take(10).ToList();
-            return product;
+       
+            var products = productDao.FindAllReference(c => c.Id > 0, "Brand,Review.User").OrderByDescending(x => x.DateCreated).Take(10).ToList();
+            return products;
         }
     }
 }
