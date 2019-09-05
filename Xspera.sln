@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.DAL", "Xspera.DAL\Xs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.BAL", "Xspera.BAL\Xspera.BAL.csproj", "{157B4778-E483-4800-8783-35342690F1C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xspera.Core", "Xspera.Core\Xspera.Core.csproj", "{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.Core", "Xspera.Core\Xspera.Core.csproj", "{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xspera.Application", "Xspera.Application\Xspera.Application.csproj", "{E116EAC3-3797-4FCE-BD33-25018811523E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E116EAC3-3797-4FCE-BD33-25018811523E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E116EAC3-3797-4FCE-BD33-25018811523E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E116EAC3-3797-4FCE-BD33-25018811523E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E116EAC3-3797-4FCE-BD33-25018811523E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
