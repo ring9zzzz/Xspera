@@ -32,14 +32,18 @@ namespace Xspera.Controllers
 
         // POST api/values
         [HttpPost("addingreview")]
-        public ActionResult Post([FromBody] Review value)
+        public ActionResult Post([FromBody] Review requestData)
         {
-            var data = _reviewService.AddingReview(value);
-            if (!data)
+            if (requestData.ProductId == 0 || requestData.UserId == 0 || requestData.Rating == 0 || requestData.Comment == null)
             {
-                return BadRequest();
+                return BadRequest("request parameter incorrect.");
             }
-            return Ok(data);
+            var data = _reviewService.AddingReview(requestData);
+            if (data.ContainsKey(false))
+            {
+                return BadRequest(data.Values);
+            }
+            return Ok(data.Values);
         }
     }
 }
