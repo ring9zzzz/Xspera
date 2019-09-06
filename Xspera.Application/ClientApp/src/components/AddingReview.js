@@ -8,13 +8,13 @@ export class AddingReview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: [], loading: true,message:null, review:
+            product: null, loading: true, message: null, review:
             {
-                email:"",
-                rating:0,
-                comment:""
+                email: "",
+                rating: 0,
+                comment: ""
             }
-        };       
+        };
         console.log(Setting.rootAPI + Setting.GetProduct(this.props.match.params.id));
         fetch(Setting.rootAPI + Setting.GetProduct(this.props.match.params.id))
             .then(response => response.json())
@@ -54,28 +54,28 @@ export class AddingReview extends Component {
                                                 <label className="container">One
                                                   <input type="radio" name="radio" value="1" onChange={this.handleRatingChange.bind(this)} />
                                                     <span className="checkmark"></span>
-                                                </label>    
+                                                </label>
                                                 <label className="container">Two
                                                   <input type="radio" name="radio" value="2" onChange={this.handleRatingChange.bind(this)} />
                                                     <span className="checkmark"></span>
-                                                </label> 
+                                                </label>
                                                 <label className="container">Three
                                                   <input type="radio" name="radio" value="3" onChange={this.handleRatingChange.bind(this)} />
                                                     <span className="checkmark"></span>
-                                                </label> 
+                                                </label>
                                                 <label className="container">Four
                                                   <input type="radio" name="radio" value="4" onChange={this.handleRatingChange.bind(this)} />
                                                     <span className="checkmark"></span>
-                                                </label> 
+                                                </label>
                                                 <label className="container">Five
-                                                  <input type="radio" name="radio" value="5" onChange={this.handleRatingChange.bind(this)}/>
+                                                  <input type="radio" name="radio" value="5" onChange={this.handleRatingChange.bind(this)} />
                                                     <span className="checkmark"></span>
-                                                </label> 
+                                                </label>
                                             </div>
                                             <div className="title">
                                                 <strong> Comment </strong> :  <textarea onChange={this.handleCommentChange.bind(this)} />
                                             </div>
-                                            {this.state.message !== null ? <label className="api-message">{this.state.message}</label> :null} 
+                                            {this.state.message !== null ? <label className="api-message">{this.state.message}</label> : null}
                                         </div>
                                     </div>
                                     <div className="button-area">
@@ -108,19 +108,33 @@ export class AddingReview extends Component {
         this.setState({ review: { ...this.state.review, ...obj } })
     }
     AddingReviewData() {
-        let formData = this.state.review;
+        if (this.state.review.email === "" ||!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.review.email)) {
+            this.setState({ message: "The email incorrect format." })
+        }
+        if (this.state.review.rating == 0) {
+            this.setState({ message: "Please vote the rating before submit." })
+        }
+   
+        let formData =
+        {
+            productId: this.state.product[0].id,
+            userid: 3, //set default
+            email: this.state.review.email,
+            rating: this.state.review.rating,
+            comment: this.state.review.comment,
+        }
+
         console.log(JSON.stringify(formData));
         fetch(Setting.rootAPI + Setting.AddReview, {
             method: 'POST',
-            headers: {              
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(formData)
         }).then(response => response.json())
             .then(data => {
-                console.log(data);
+                //this.context.router.history.push(`/product-list`)
                 this.setState({ message: data })
-                console.log(this.state.message);
             });
     }
     render() {

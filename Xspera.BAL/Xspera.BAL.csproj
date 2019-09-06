@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Xspera.Core\Xspera.Core.csproj" />
     <ProjectReference Include="..\Xspera.DAL\Xspera.DAL.csproj" />
   </ItemGroup>
 

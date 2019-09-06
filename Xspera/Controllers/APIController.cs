@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Xspera.BAL.Services;
+using Xspera.Core.Models;
 using Xspera.DAL.Entities;
 
 namespace Xspera.Controllers
@@ -47,7 +48,7 @@ namespace Xspera.Controllers
 
         // POST api/values
         [HttpPost("addingreview")]
-        public ActionResult Post([FromBody] Review requestData)
+        public ActionResult Post([FromBody] ReviewRequest requestData)
         {
             if (requestData.ProductId == 0 || requestData.UserId == 0 || requestData.Rating == 0 || requestData.Comment == null)
             {
