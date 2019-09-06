@@ -12,7 +12,18 @@ html {
     font-size: 16px;
   }
 }
-
+.display-content {
+    display: contents;
+}
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+.nav-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.nav-prod {
+width:100px;
 }

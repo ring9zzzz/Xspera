@@ -1,5 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Setting } from './Config/Setting';
+import { Collapse, Container, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import './ProductList.css';
 
 export class ProductList extends Component {
@@ -8,16 +10,11 @@ export class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = { products: [], loading: true };
-        console.log(Setting.rootAPI + Setting.GetProduct);
-        fetch(Setting.rootAPI + Setting.GetProduct)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                this.setState({ products: data, loading: false });
-            });
+        console.log(Setting.rootAPI);
+        this.GetProductList();
     }
 
-    static renderProductsTable(products) {
+     renderProducts(products) {
         //console.log(products);
         return (
             <div className="container">
@@ -25,7 +22,7 @@ export class ProductList extends Component {
                     <div className="card product-item" style={{ width: '20rem', display: 'inline-table' }} key={product.id}>
                         <div className="course-item grid clearfix">
                             <div className="grid-inner col-inner">
-                                <div className="image">
+                                <div>
                                     <div className="title">
                                         <strong> Brand </strong>: {product.brand.name}
                                     </div>
@@ -62,7 +59,7 @@ export class ProductList extends Component {
                                             </div>
                                         </div> : null}
                                     <div className="button-area">
-                                        <button className="btn btn-block btn-danger" onClick={this.redirectToAddReview}>Adding review</button>
+                                        <NavLink tag={Link} className="btn btn-block btn-danger" to={`/adding-review/${product.id}`}>Adding review</NavLink>
                                     </div>
                                 </div>
                             </div>
@@ -72,19 +69,38 @@ export class ProductList extends Component {
             </div>
         );
     }
-    redirectToAddReview() {
-        console.log("wtf!!!");
-        this.props.history.push('/adding-review');
-        console.log("wtf!!!");
+    GetProductList(id) {
+        var param = Setting.GetProductByBrand(id);
+        fetch(Setting.rootAPI + param)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                this.setState({ products: data, loading: false });
+            });
     }
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : this.state.products.length === 0 ? <p><em>Data not found</em></p> : ProductList.renderProductsTable(this.state.products);
+            : this.state.products.length === 0 ? <p><em>Data not found</em></p> : this.renderProducts(this.state.products);
 
         return (
             <div>
-                <h1>List Product</h1>             
+                <h1>List Product</h1>
+                <Container>
+                    <Collapse className="d-sm-inline-flex flex-sm-row-reverse" navbar>
+                        <ul className="navbar-nav display-content">
+                            <NavItem>
+                                <NavLink onClick={() => this.GetProductList(1)} className="btn btn-danger nav-prod text-white">Tech</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink onClick={() => this.GetProductList(2)} className="btn btn-danger nav-prod text-white">Book</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink onClick={() => this.GetProductList(3)} className="btn btn-danger nav-prod text-white">Car</NavLink>
+                            </NavItem>
+                        </ul>
+                    </Collapse>
+                </Container>
                 {contents}
             </div>
         );

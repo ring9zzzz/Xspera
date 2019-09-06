@@ -23,12 +23,26 @@ namespace Xspera.Controllers
         [HttpGet()]
         public ActionResult Get(int brandId = 0)
         {
-            var data = _productService.GetProduct(brandId);
+            var data = _productService.GetListProduct(brandId);
             if (data == null)
             {
                 return NotFound();
             }
             return Ok(data);
+        }
+        [HttpGet("getprodbyid")]
+        public ActionResult GetById(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("request parameter incorrect.");
+            }
+            var data = _productService.GetProduct(productId);
+            if (data.Values == null)
+            {
+                return NotFound(data.Keys);
+            }
+            return Ok(data.Values);
         }
 
         // POST api/values

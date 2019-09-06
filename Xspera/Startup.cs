@@ -66,8 +66,11 @@ namespace Xspera
             app.UseCors(builder =>
             {
                 builder.WithOrigins("https://localhost:44342",
-                                    "https://localhost:44343");
-            });
+                                    "https://localhost:44343").AllowAnyOrigin()
+                                                              .AllowAnyMethod()
+                                                              .AllowAnyHeader()
+                                                              .AllowCredentials(); 
+        });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
