@@ -125,7 +125,7 @@ export class AddingReview extends Component {
         let formData =
         {
             productId: this.state.product[0].id,
-            userid: 3, //set default
+            //userid: 3, //set default
             email: this.state.review.email,
             rating: this.state.review.rating,
             comment: this.state.review.comment,

@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using Xspera.BAL.Services;
 using Xspera.Core.Models;
-using Xspera.DAL.Entities;
-using System.Linq;
+
 namespace Xspera.Controllers
 {
     [Route("xpera/[controller]")]
@@ -31,6 +30,7 @@ namespace Xspera.Controllers
             }
             return Ok(data);
         }
+
         [HttpGet("getprodbyid")]
         public ActionResult GetById(int productId)
         {
@@ -50,7 +50,7 @@ namespace Xspera.Controllers
         [HttpPost("addingreview")]
         public ActionResult Post([FromBody] ReviewRequest requestData)
         {
-            if (requestData.ProductId == 0 || requestData.UserId == 0 || requestData.Rating == 0 || requestData.Comment == null || string.IsNullOrWhiteSpace(requestData.Email))
+            if (requestData.ProductId == 0 || requestData.Rating == 0 || requestData.Comment == null || string.IsNullOrWhiteSpace(requestData.Email))
             {
                 return BadRequest("request parameter incorrect.");
             }
