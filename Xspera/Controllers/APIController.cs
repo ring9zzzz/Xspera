@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Xspera.BAL.Services;
 using Xspera.Core.Models;
 using Xspera.DAL.Entities;
-
+using System.Linq;
 namespace Xspera.Controllers
 {
     [Route("xpera/[controller]")]
@@ -41,7 +41,7 @@ namespace Xspera.Controllers
             var data = _productService.GetProduct(productId);
             if (data.Values == null)
             {
-                return NotFound(data.Keys);
+                return NotFound(data.Keys.FirstOrDefault());
             }
             return Ok(data.Values);
         }
@@ -50,16 +50,16 @@ namespace Xspera.Controllers
         [HttpPost("addingreview")]
         public ActionResult Post([FromBody] ReviewRequest requestData)
         {
-            if (requestData.ProductId == 0 || requestData.UserId == 0 || requestData.Rating == 0 || requestData.Comment == null)
+            if (requestData.ProductId == 0 || requestData.UserId == 0 || requestData.Rating == 0 || requestData.Comment == null || string.IsNullOrWhiteSpace(requestData.Email))
             {
                 return BadRequest("request parameter incorrect.");
             }
             var data = _reviewService.AddingReview(requestData);
             if (data.ContainsKey(false))
             {
-                return BadRequest(data.Values);
+                return BadRequest(data.Values.FirstOrDefault());
             }
-            return Ok(data.Values);
+            return Ok(data.Keys.FirstOrDefault());
         }
     }
 }

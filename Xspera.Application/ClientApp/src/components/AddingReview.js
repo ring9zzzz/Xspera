@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Setting } from './Config/Setting';
+import { withRouter } from "react-router-dom";
 import './AddingReview.css';
 
 export class AddingReview extends Component {
@@ -108,11 +109,17 @@ export class AddingReview extends Component {
         this.setState({ review: { ...this.state.review, ...obj } })
     }
     AddingReviewData() {
-        if (this.state.review.email === "" ||!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.review.email)) {
+        if (this.state.review.email.length === 0) {
+            this.setState({ message: "Please fill the email before submit." })
+            return;
+        }
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.review.email)) {
             this.setState({ message: "The email incorrect format." })
+            return;
         }
         if (this.state.review.rating == 0) {
             this.setState({ message: "Please vote the rating before submit." })
+            return;
         }
    
         let formData =
@@ -133,14 +140,16 @@ export class AddingReview extends Component {
             body: JSON.stringify(formData)
         }).then(response => response.json())
             .then(data => {
-                //this.context.router.history.push(`/product-list`)
-                this.setState({ message: data })
+                if (data === true) {
+                    this.props.history.push(`/product-list`);   
+                }
+                this.setState({ message: data })             
             });
     }
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : this.state.product.length === 0 ? <p><em>Data not found</em></p> : this.renderProduct(this.state);
+            : Array.isArray(this.state.product) ? this.renderProduct(this.state) : <p><em>Data not found</em></p> ;
 
         return (
             <div>

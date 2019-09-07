@@ -27,11 +27,11 @@ namespace Xspera.BAL.Services
             {
                 var brandDao = this._repository.GetDao<Brand>();
                 var existedBrand = brandDao.Find(x => x.Id == brandId).FirstOrDefault();
-                var productsByBrand = productDao.FindAllReference(c => c.BrandId == existedBrand.Id, "Brand,Review.User").ToList();
+                var productsByBrand = productDao.FindAllReference(x => x.BrandId == existedBrand.Id && x.AvailableStatus == 0, "Brand,Review.User").ToList();
                 return productsByBrand;
             }
        
-            var products = productDao.FindAllReference(c => c.Id > 0, "Brand,Review.User").OrderByDescending(x => x.DateCreated).Take(10).ToList();
+            var products = productDao.FindAllReference(x => x.Id > 0, "Brand,Review.User").OrderByDescending(x => x.DateCreated).Take(10).ToList();
             return products;
         }
 
@@ -39,7 +39,7 @@ namespace Xspera.BAL.Services
         {
             var result = new Dictionary<string, Product>();
             var productDao = this._repository.GetDao<Product>();  
-                var existedProduct = productDao.Find(x => x.Id == productId).FirstOrDefault();
+                var existedProduct = productDao.Find(x => x.Id == productId && x.AvailableStatus == 0).FirstOrDefault();
                 if (existedProduct == null)
                 {
                     result.Add("This product can't found \n please try again later.", null);

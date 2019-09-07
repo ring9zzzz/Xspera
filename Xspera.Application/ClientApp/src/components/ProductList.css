@@ -1,6 +1,7 @@
 ﻿.product-item {
     margin: 10px 10px 10px 10px;
     background-color: #efd5d5 !important;
+    height:500px;
 }
 .review-title {
     width: 100%;
@@ -8,13 +9,15 @@
     border-top: 1px solid;
 }
 .button-area {
-    width: 100%;
+    width: 98%;
     height: 45px;
     border-top: 1px solid;
     align-items: center;
     align-content: center;
     text-align: center;
     padding-top: 8px;
+    bottom: 0px;
+    position: absolute;
 }
     .button-area > a {
     padding:unset !important;

@@ -14,7 +14,7 @@ export class ProductList extends Component {
         this.GetProductList();
     }
 
-     renderProducts(products) {
+    renderProducts(products) {
         //console.log(products);
         return (
             <div className="container">
@@ -43,9 +43,9 @@ export class ProductList extends Component {
                                     <div className="title">
                                         <strong> Description </strong> : {product.description}
                                     </div>
-                                    {product.review.length > 0 ?
-                                        <div className="review-title">
-                                            <strong> Recently review from customer </strong>
+                                    <div className="review-title">
+                                        <strong> Review from customer </strong>
+                                        {product.review.length > 0 ?
                                             <div className="review-content">
                                                 <div className="title">
                                                     <strong> Customer </strong> :  {product.review[0].user.username}
@@ -54,10 +54,11 @@ export class ProductList extends Component {
                                                     <strong> Rating </strong> :  {product.review[0].rating}
                                                 </div>
                                                 <div className="title">
-                                                    <strong> Comment </strong> :  {product.review[0].comment}
+                                                    <strong> Comment </strong>  {product.review[0].comment}
                                                 </div>
                                             </div>
-                                        </div> : null}
+                                            : null}
+                                    </div>
                                     <div className="button-area">
                                         <NavLink tag={Link} className="btn btn-block btn-danger" to={`/adding-review/${product.id}`}>Adding review</NavLink>
                                     </div>
@@ -81,7 +82,7 @@ export class ProductList extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : this.state.products.length === 0 ? <p><em>Data not found</em></p> : this.renderProducts(this.state.products);
+            : Array.isArray(this.state.products) ? this.renderProducts(this.state.products) : <p><em>Data not found</em></p>;
 
         return (
             <div>
@@ -97,6 +98,9 @@ export class ProductList extends Component {
                             </NavItem>
                             <NavItem>
                                 <NavLink onClick={() => this.GetProductList(3)} className="btn btn-danger nav-prod text-white">Car</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink onClick={() => this.GetProductList(4)} className="btn btn-danger nav-prod text-white">Food</NavLink>
                             </NavItem>
                         </ul>
                     </Collapse>
