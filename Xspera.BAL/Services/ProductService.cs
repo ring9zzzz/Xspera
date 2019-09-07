@@ -33,7 +33,21 @@ namespace Xspera.BAL.Services
             }
 
             var products = productDao.FindAllReference(x => x.Id > 0, "Brand,Review.User").OrderByDescending(x => x.DateCreated).Take(10).ToList();
-            return products;
+            var sortedProducts = products.Select(x => new Product
+            {
+                Id = x.Id,
+                AvailableStatus = x.AvailableStatus,
+                Brand = x.Brand,
+                BrandId = x.BrandId,
+                Color = x.Color,
+                CreatedBy = x.CreatedBy,
+                DateCreated = x.DateCreated,
+                Description = x.Description,
+                Name = x.Name,
+                Price = x.Price,
+                Review = x.Review.OrderByDescending(c=>c.DateCreated).ToList()
+            });
+            return sortedProducts.ToList();
         }
 
         public Dictionary<string, Product> GetProduct(int productId = 0)
