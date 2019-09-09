@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import { Setting } from './Config/Setting';
-import { withRouter } from "react-router-dom";
 import './AddingReview.css';
 
 export class AddingReview extends Component {
@@ -20,7 +19,7 @@ export class AddingReview extends Component {
         fetch(Setting.rootAPI + Setting.GetProduct(this.props.match.params.id))
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                //console.log(data);
                 this.setState({ product: data, loading: false });
             });
     }
@@ -80,7 +79,7 @@ export class AddingReview extends Component {
                                         </div>
                                     </div>
                                     <div className="button-area">
-                                        <button className="btn btn-block btn-danger" onClick={this.AddingReviewData.bind(this)}>Adding review</button>
+                                        <button ref="btn" className="btn btn-block btn-danger" onClick={this.AddingReviewData.bind(this)}>Adding review</button>
                                     </div>
                                 </div>
                             </div>
@@ -97,18 +96,19 @@ export class AddingReview extends Component {
         this.setState({ review: { ...this.state.review, ...obj } })
     }
     handleRatingChange(e) {
-        console.log(e);
+        //console.log(e);
         var obj = {}
         obj['rating'] = e.target.value
         this.setState({ review: { ...this.state.review, ...obj } })
     }
     handleCommentChange(e) {
-        console.log(e);
+        //console.log(e);
         var obj = {}
         obj['comment'] = e.target.value
         this.setState({ review: { ...this.state.review, ...obj } })
     }
     AddingReviewData() {
+        console.log(this);
         if (this.state.review.email.length === 0) {
             this.setState({ message: "Please fill the email before submit." })
             return;
@@ -121,7 +121,7 @@ export class AddingReview extends Component {
             this.setState({ message: "Please vote the rating before submit." })
             return;
         }
-   
+        this.refs.btn.setAttribute("disabled", "disabled");
         let formData =
         {
             productId: this.state.product[0].id,
@@ -131,7 +131,7 @@ export class AddingReview extends Component {
             comment: this.state.review.comment,
         }
 
-        console.log(JSON.stringify(formData));
+        //console.log(JSON.stringify(formData));
         fetch(Setting.rootAPI + Setting.AddReview, {
             method: 'POST',
             headers: {
@@ -141,9 +141,11 @@ export class AddingReview extends Component {
         }).then(response => response.json())
             .then(data => {
                 if (data === true) {
+                    this.refs.btn.removeAttribute("disabled");
                     this.props.history.push(`/product-list`);   
                 }
-                this.setState({ message: data })             
+                this.setState({ message: data })
+              
             });
     }
     render() {

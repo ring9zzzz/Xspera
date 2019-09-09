@@ -21,9 +21,9 @@ namespace Xspera.Controllers
 
         // GET api/values
         [HttpGet()]
-        public ActionResult Get(int brandId = 0)
+        public ActionResult Get(int brandId = 0,int pageNumber = 1 ,int pageSelect = 10)
         {
-            var data = _productService.GetListProduct(brandId);
+            var data = _productService.GetListProduct(brandId, pageNumber, pageSelect);
             if (data == null)
             {
                 return NotFound();

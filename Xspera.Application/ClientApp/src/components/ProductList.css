@@ -19,8 +19,11 @@
     bottom: 0px;
     position: absolute;
 }
-    .button-area > a {
+    .button-area > button {
     padding:unset !important;
+    }
+    .button-area > a {
+        padding: unset !important;
     }
 .review-content {
 }

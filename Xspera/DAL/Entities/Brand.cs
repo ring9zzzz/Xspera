@@ -13,12 +13,9 @@ namespace Xspera.DAL.Entities
         }
 
         public int Id { get; set; }
-        [Required]
-        [StringLength(200)]
         public string Name { get; set; }
         public string Description { get; set; }
 
-        [InverseProperty("Brand")]
         public virtual ICollection<Product> Product { get; set; }
     }
 }

@@ -1,33 +1,39 @@
 ﻿namespace Xspera.DAL.Repositories
 {
+    using Dapper;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Data.SqlClient;
+    using System.Text;
     using Xspera.DAL.Dao;
     using Xspera.DAL.Entities;
+
     public class MainRepository : Repository<XsperaContext>, IRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SimRepository"/> class.
         /// </summary>
         /// <param name="simDbContext">The sim database context.</param>
-        public MainRepository(XsperaContext simDbContext) : base()
+        public MainRepository(XsperaContext simDbContext, IConfiguration configuration) : base(configuration)
         {
             this.dbContext = simDbContext;
         }
     }
+
     /// <summary>
     /// Define abtract repository class
     /// </summary>
     /// <typeparam name="TContext">The type of the context.</typeparam>
     public abstract class Repository<TContext> where TContext : XsperaContext
     {
-        /// <summary>
-        /// The transaction
-        /// </summary>
-        private DbTransaction transaction;
+
+        private SqlConnection sqlConnection;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// The DAO cache
@@ -42,9 +48,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TContext}"/> class.
         /// </summary>
-        protected Repository()
+        protected Repository(IConfiguration configuration)
         {
             this.DaoCache = new ConcurrentDictionary<Type, object>();
+            _configuration = configuration;
+            this.sqlConnection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
         }
 
         /// <summary>
@@ -74,20 +82,72 @@
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public DbTransaction BeginTransaction()
+        public SqlConnection GetConnection()
+        {          
+            return this.sqlConnection;
+        }
+        public IEnumerable<TResult> ExecuteQuery<TResult>(string query)
         {
-            if (null == this.transaction)
+            sqlConnection.Open();
+            try
             {
-                if (this.dbContext.Database.GetDbConnection().State != ConnectionState.Open)
-                {
-                    this.dbContext.Database.OpenConnection();
-                }
-
-                this.transaction = this.dbContext.Database.CurrentTransaction as DbTransaction;
-                this.dbContext.Database.UseTransaction(this.transaction);
+                return sqlConnection.Query<TResult>(query);
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
 
-            return this.transaction;
+        public IEnumerable<TResult> ExecuteSelectListQuery<TResult>(string query, int pageNumber, int pageSelect, string FetchMethod = "NEXT")
+        {
+            sqlConnection.Open();
+            try
+            {
+                var convertedQuery = new StringBuilder(query);
+                if(pageNumber > 0) convertedQuery.AppendLine($"\t OFFSET {((pageNumber - 1) * pageSelect)} ROWS ");
+                if(pageSelect > 0) convertedQuery.AppendLine($"\t FETCH {FetchMethod} {pageSelect} ROWS ONLY;");
+                return sqlConnection.Query<TResult>(convertedQuery.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public IEnumerable<TResult> ExecuteMultiSelectQuery<TFirst, Tsecond, TResult>(string query, int pageNumber, int pageSelect, Func<TFirst, Tsecond, TResult> map = null,  string splitOn = "Id",  string FetchMethod = "NEXT")
+        {
+            sqlConnection.Open();
+            try
+            {
+                var convertedQuery = new StringBuilder(query);
+                if (pageNumber > 0) convertedQuery.AppendLine($"\t OFFSET {((pageNumber - 1) * pageSelect)} ROWS ");
+                if (pageSelect > 0) convertedQuery.AppendLine($"\t FETCH {FetchMethod} {pageSelect} ROWS ONLY;");
+                if (map == null)
+                {
+                    return sqlConnection.Query<TResult>(convertedQuery.ToString());
+                }
+                else
+                {
+                    return sqlConnection.Query(convertedQuery.ToString(), map, splitOn: splitOn);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
         }
     }
 }

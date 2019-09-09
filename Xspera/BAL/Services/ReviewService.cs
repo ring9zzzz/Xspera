@@ -24,11 +24,13 @@ namespace Xspera.BAL.Services
 
         public Dictionary<bool, string> AddingReview(ReviewRequest reviewRequest)
         {
-            using (var trans = this._repository.BeginTransaction())
+            using (var conn = this._repository.GetConnection())
             {
+                conn.Open();
+                var trans = conn.BeginTransaction();
                 var result = new Dictionary<bool, string>();
                 try
-                {                 
+                {
                     var reviewDao = this._repository.GetDao<Review>();
                     var userDao = this._repository.GetDao<User>();
                     var productDao = this._repository.GetDao<Product>();
@@ -62,9 +64,11 @@ namespace Xspera.BAL.Services
                     result.Add(true, ex.Message);
                     return result;
                 }
-             
+                finally
+                {
+                    conn.Close();
+                }
             }
-       
         }
     }
 }

@@ -14,23 +14,16 @@ namespace Xspera.DAL.Entities
 
         public int Id { get; set; }
         public int BrandId { get; set; }
-        [Required]
-        [StringLength(20)]
+     
         public string Name { get; set; }
-        [Column(TypeName = "money")]
         public decimal Price { get; set; }
-        [StringLength(50)]
+      
         public string Color { get; set; }
-        public string Description { get; set; }
-        [Column(TypeName = "datetime")]
+        public string Description { get; set; } 
         public DateTime DateCreated { get; set; }
         public int AvailableStatus { get; set; }
         public int? CreatedBy { get; set; }
-
-        [ForeignKey("BrandId")]
-        [InverseProperty("Product")]
         public virtual Brand Brand { get; set; }
-        [InverseProperty("Product")]
         public virtual ICollection<Review> Review { get; set; }
     }
 }
