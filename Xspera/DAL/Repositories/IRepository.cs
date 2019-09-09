@@ -24,7 +24,7 @@
         /// <returns></returns>
         SqlConnection GetConnection();
         IEnumerable<TResult> ExecuteQuery<TResult>(string query);
-        IEnumerable<TResult> ExecuteSelectListQuery<TResult>(string query, int pageNumber = 1, int pageSelect = 10, string FetchMethod = "NEXT");
-        IEnumerable<TResult> ExecuteMultiSelectQuery<TFirst, Tsecond, TResult>(string query, int pageNumber, int pageSelect, Func<TFirst, Tsecond, TResult> map = null, string splitOn = "Id", string FetchMethod = "NEXT");
+        IEnumerable<TResult> ExecuteSelectListQuery<TResult>(string query, int pageNo = 1, int pageSize  = 10, string FetchMethod = "NEXT");
+        IEnumerable<TResult> ExecuteMultiSelectQuery<TFirst, Tsecond, TResult>(string query, int pageNo, int pageSize , Func<TFirst, Tsecond, TResult> map = null, string splitOn = "Id", string FetchMethod = "NEXT");
     }
 }

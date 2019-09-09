@@ -22,9 +22,9 @@ namespace Xspera.Controllers
 
         // GET api/values
         [HttpGet()]
-        public ActionResult Get(int brandId = 0,int pageNumber = 1 ,int pageSelect = 10)
+        public ActionResult Get(int brandId = 0,int pageNo = 1 ,int pageSize  = 10)
         {
-            var data = _productService.GetListProduct(brandId, pageNumber, pageSelect);
+            var data = _productService.GetListProduct(brandId, pageNo, pageSize );
             if (data == null)
             {
                 throw new Exception("Not found");

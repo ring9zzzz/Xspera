@@ -7,7 +7,7 @@ namespace Xspera.BAL.Services
 {
     public interface IProductService
     {
-        List<Product> GetListProduct(int brandId, int pageNumber, int pageSelect);
+        List<Product> GetListProduct(int brandId, int pageNo, int pageSize );
 
         Dictionary<string, Product> GetProduct(int productId = 0);
 
@@ -51,7 +51,7 @@ namespace Xspera.BAL.Services
         //    return sortedProducts.ToList();
         //}
 
-        public List<Product> GetListProduct(int brandId,int pageNumber, int pageSelect)
+        public List<Product> GetListProduct(int brandId,int pageNo, int pageSize )
         {
             string queryProduct = $@"SELECT P.Id,P.AvailableStatus,P.BrandId,P.Color,P.CreatedBy,P.DateCreated,P.[Description],P.[Name],P.Price,
 	                                   B.Id,B.[Name],B.[Description]
@@ -59,7 +59,7 @@ namespace Xspera.BAL.Services
 	                                   INNER JOIN Brand B ON P.BrandId = B.Id
                                        WHERE (P.BrandId = {brandId} and {brandId} > 0) OR (P.BrandId > 0 and {brandId} = 0)
                                        Order by P.DateCreated DESC";
-            var products = this._repository.ExecuteMultiSelectQuery<Product,Brand, Product>(queryProduct, pageNumber, pageSelect, (x,y) => { x.Brand = y; return x; }).ToList();
+            var products = this._repository.ExecuteMultiSelectQuery<Product,Brand, Product>(queryProduct, pageNo, pageSize , (x,y) => { x.Brand = y; return x; }).ToList();
             var productIds = products.Select(x => x.Id).ToArray();
             string queryReview = $@"SELECT R.Id,R.Comment,R.DateCreated,R.Email,R.ProductId,R.Rating,R.UserId,
                                        U.Id,U.DateOfBirth,U.Email,U.[Type],U.Username 

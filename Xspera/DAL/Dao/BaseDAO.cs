@@ -117,24 +117,24 @@ namespace Xspera.DAL.Dao
         /// Filter by condition
         /// </summary>
         /// <param name="selectQuery">select query</param>
-        /// <param name="pageNumber">Page Size</param>
+        /// <param name="pageNo">Page Size</param>
         /// <param name="pageSize">Page number</param>
         /// <returns></returns>
         public IList<T> FindAll(Expression<Func<T, bool>> selectQuery,
-            int pageNumber = -1, int pageSize = -1)
+            int pageNo = -1, int pageSize = -1)
         {
 
             var queryable = this.Context.Set<T>().Where(selectQuery);
-            if (pageNumber != -1 && pageSize != -1)
+            if (pageNo != -1 && pageSize != -1)
             {
-                var skipItems = (pageNumber - 1) * pageSize;
+                var skipItems = (pageNo - 1) * pageSize;
                 queryable = queryable.Skip(skipItems).Take(pageSize);
             }
 
             return queryable.ToList();
         }
         public IList<T> FindAllReference(Expression<Func<T, bool>> selectQuery,string reference,
-         int pageNumber = -1, int pageSize = -1)
+         int pageNo = -1, int pageSize = -1)
         {
             IQueryable<T> queryable;
             var references = reference.Split(",");
@@ -147,9 +147,9 @@ namespace Xspera.DAL.Dao
                 queryable = this.Context.Set<T>().Include(references[0]).Where(selectQuery);
             }
            
-            if (pageNumber != -1 && pageSize != -1)
+            if (pageNo != -1 && pageSize != -1)
             {
-                var skipItems = (pageNumber - 1) * pageSize;
+                var skipItems = (pageNo - 1) * pageSize;
                 queryable = queryable.Skip(skipItems).Take(pageSize);
             }
             return queryable.ToList();

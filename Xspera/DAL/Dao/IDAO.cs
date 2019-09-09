@@ -55,19 +55,19 @@ namespace Xspera.DAL.Dao
         /// Finds all.
         /// </summary>
         /// <param name="selectQuery">The select query.</param>
-        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageNo">The page number.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
         IList<T> FindAll(Expression<Func<T, bool>> selectQuery,
-            int pageNumber = -1, int pageSize = -1);
+            int pageNo = -1, int pageSize = -1);
         /// <summary>Finds all reference.</summary>
         /// <param name="selectQuery">The select query.</param>
         /// <param name="reference">The reference.</param>
-        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageNo">The page number.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
         IList<T> FindAllReference(Expression<Func<T, bool>> selectQuery, string reference,
-         int pageNumber = -1, int pageSize = -1);
+         int pageNo = -1, int pageSize = -1);
 
         /// <summary>Finds the specified select query.</summary>
         /// <param name="selectQuery">The select query.</param>

@@ -91,6 +91,9 @@ export class ProductList extends Component {
                     <Collapse className="d-sm-inline-flex flex-sm-row-reverse" navbar>
                         <ul className="navbar-nav display-content">
                             <NavItem>
+                                <NavLink onClick={() => this.GetProductList(5)} className="btn btn-danger nav-prod text-white">Others</NavLink>
+                            </NavItem>
+                            <NavItem>
                                 <NavLink onClick={() => this.GetProductList(1)} className="btn btn-danger nav-prod text-white">Tech</NavLink>
                             </NavItem>
                             <NavItem>
@@ -101,6 +104,9 @@ export class ProductList extends Component {
                             </NavItem>
                             <NavItem>
                                 <NavLink onClick={() => this.GetProductList(4)} className="btn btn-danger nav-prod text-white">Food</NavLink>
+                            </NavItem>                      
+                            <NavItem>
+                                <NavLink onClick={() => this.GetProductList(0)} className="btn btn-danger nav-prod text-white">Last 10 Items</NavLink>
                             </NavItem>
                         </ul>
                     </Collapse>

@@ -103,14 +103,14 @@
             }
         }
 
-        public IEnumerable<TResult> ExecuteSelectListQuery<TResult>(string query, int pageNumber, int pageSelect, string FetchMethod = "NEXT")
+        public IEnumerable<TResult> ExecuteSelectListQuery<TResult>(string query, int pageNo, int pageSize , string FetchMethod = "NEXT")
         {
             sqlConnection.Open();
             try
             {
                 var convertedQuery = new StringBuilder(query);
-                if(pageNumber > 0) convertedQuery.AppendLine($"\t OFFSET {((pageNumber - 1) * pageSelect)} ROWS ");
-                if(pageSelect > 0) convertedQuery.AppendLine($"\t FETCH {FetchMethod} {pageSelect} ROWS ONLY;");
+                if(pageNo > 0) convertedQuery.AppendLine($"\t OFFSET {((pageNo - 1) * pageSize )} ROWS ");
+                if(pageSize  > 0) convertedQuery.AppendLine($"\t FETCH {FetchMethod} {pageSize } ROWS ONLY;");
                 return sqlConnection.Query<TResult>(convertedQuery.ToString());
             }
             catch (Exception ex)
@@ -123,14 +123,14 @@
             }
         }
 
-        public IEnumerable<TResult> ExecuteMultiSelectQuery<TFirst, Tsecond, TResult>(string query, int pageNumber, int pageSelect, Func<TFirst, Tsecond, TResult> map = null,  string splitOn = "Id",  string FetchMethod = "NEXT")
+        public IEnumerable<TResult> ExecuteMultiSelectQuery<TFirst, Tsecond, TResult>(string query, int pageNo, int pageSize , Func<TFirst, Tsecond, TResult> map = null,  string splitOn = "Id",  string FetchMethod = "NEXT")
         {
             sqlConnection.Open();
             try
             {
                 var convertedQuery = new StringBuilder(query);
-                if (pageNumber > 0) convertedQuery.AppendLine($"\t OFFSET {((pageNumber - 1) * pageSelect)} ROWS ");
-                if (pageSelect > 0) convertedQuery.AppendLine($"\t FETCH {FetchMethod} {pageSelect} ROWS ONLY;");
+                if (pageNo > 0) convertedQuery.AppendLine($"\t OFFSET {((pageNo - 1) * pageSize )} ROWS ");
+                if (pageSize  > 0) convertedQuery.AppendLine($"\t FETCH {FetchMethod} {pageSize } ROWS ONLY;");
                 if (map == null)
                 {
                     return sqlConnection.Query<TResult>(convertedQuery.ToString());
