@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GlobalErrorHandling.Extensions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,8 +72,10 @@ namespace Xspera
                                                               .AllowAnyHeader()
                                                               .AllowCredentials(); 
         });
+            app.ConfigureExceptionHandler();
             app.UseHttpsRedirection();
             app.UseMvc();
+           
         }
     }
 }

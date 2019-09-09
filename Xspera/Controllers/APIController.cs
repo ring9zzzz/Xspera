@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using Xspera.BAL.Services;
 using Xspera.Core.Models;
@@ -26,7 +27,7 @@ namespace Xspera.Controllers
             var data = _productService.GetListProduct(brandId, pageNumber, pageSelect);
             if (data == null)
             {
-                return NotFound();
+                throw new Exception("Not found");
             }
             return Ok(data);
         }
@@ -36,12 +37,12 @@ namespace Xspera.Controllers
         {
             if (productId == 0)
             {
-                return BadRequest("request parameter incorrect.");
+                throw new Exception("request parameter incorrect.");
             }
             var data = _productService.GetProduct(productId);
             if (data.Values == null)
             {
-                return NotFound(data.Keys.FirstOrDefault());
+                throw new Exception(data.Keys.FirstOrDefault());
             }
             return Ok(data.Values);
         }
@@ -52,12 +53,12 @@ namespace Xspera.Controllers
         {
             if (requestData.ProductId == 0 || requestData.Rating == 0 || requestData.Comment == null || string.IsNullOrWhiteSpace(requestData.Email))
             {
-                return BadRequest("request parameter incorrect.");
+                throw new Exception("request parameter incorrect.");
             }
             var data = _reviewService.AddingReview(requestData);
             if (data.ContainsKey(false))
             {
-                return BadRequest(data.Values.FirstOrDefault());
+                throw new Exception(data.Values.FirstOrDefault());
             }
             return Ok(data.Keys.FirstOrDefault());
         }
