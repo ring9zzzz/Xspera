@@ -5,15 +5,9 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.API", "Xspera\Xspera.API.csproj", "{577C2F29-1698-4B3A-8E7B-2E7F5E585D87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.DAL", "Xspera.DAL\Xspera.DAL.csproj", "{BDBD3EEE-C957-415C-9CD3-7265399C73FA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.BAL", "Xspera.BAL\Xspera.BAL.csproj", "{157B4778-E483-4800-8783-35342690F1C8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.Core", "Xspera.Core\Xspera.Core.csproj", "{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xspera.Application", "Xspera.Application\Xspera.Application.csproj", "{E116EAC3-3797-4FCE-BD33-25018811523E}"
-EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Xspera.Database", "Xspera.Database\Xspera.Database.sqlproj", "{CC483342-149B-4FB1-9AB5-4F961418A93F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +19,6 @@ Global
 		{577C2F29-1698-4B3A-8E7B-2E7F5E585D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{577C2F29-1698-4B3A-8E7B-2E7F5E585D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{577C2F29-1698-4B3A-8E7B-2E7F5E585D87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDBD3EEE-C957-415C-9CD3-7265399C73FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDBD3EEE-C957-415C-9CD3-7265399C73FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDBD3EEE-C957-415C-9CD3-7265399C73FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDBD3EEE-C957-415C-9CD3-7265399C73FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{157B4778-E483-4800-8783-35342690F1C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{157B4778-E483-4800-8783-35342690F1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{157B4778-E483-4800-8783-35342690F1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{157B4778-E483-4800-8783-35342690F1C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{770C0107-EA22-46E4-A1B4-FB1EDAA08FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,12 +27,6 @@ Global
 		{E116EAC3-3797-4FCE-BD33-25018811523E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E116EAC3-3797-4FCE-BD33-25018811523E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E116EAC3-3797-4FCE-BD33-25018811523E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC483342-149B-4FB1-9AB5-4F961418A93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC483342-149B-4FB1-9AB5-4F961418A93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC483342-149B-4FB1-9AB5-4F961418A93F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{CC483342-149B-4FB1-9AB5-4F961418A93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC483342-149B-4FB1-9AB5-4F961418A93F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC483342-149B-4FB1-9AB5-4F961418A93F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
