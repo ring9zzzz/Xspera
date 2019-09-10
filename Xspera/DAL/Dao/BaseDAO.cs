@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,13 @@ namespace Xspera.DAL.Dao
         {
             this.Context = session;
         }
-
+        /// <summary>Begins the transaction.</summary>
+        /// <returns></returns>
+        public IDbContextTransaction BeginTransaction()
+        {
+            var result = this.Context.Database.BeginTransaction();
+            return result;
+        }
         /// <summary>
         /// Adds the specified entity.
         /// </summary>

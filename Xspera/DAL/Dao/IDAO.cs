@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -20,6 +21,9 @@ namespace Xspera.DAL.Dao
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
         object Add(T entity);
+        /// <summary>Begins the transaction.</summary>
+        /// <returns></returns>
+        IDbContextTransaction BeginTransaction();
         /// <summary>
         /// Adds the specified entity.
         /// </summary>

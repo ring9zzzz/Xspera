@@ -22,12 +22,12 @@ namespace Xspera.Controllers
 
         // GET api/values
         [HttpGet()]
-        public ActionResult Get(int brandId = 0,int pageNo = 1 ,int pageSize  = 10)
+        public ActionResult GetListProduct(int brandId = 0,int pageNo = 1 ,int pageSize  = 10)
         {
             var data = _productService.GetListProduct(brandId, pageNo, pageSize );
-            if (data == null)
+            if (!data.Any())
             {
-                throw new Exception("Not found");
+                return NotFound("Not found");
             }
             return Ok(data);
         }
@@ -40,16 +40,15 @@ namespace Xspera.Controllers
                 throw new Exception("request parameter incorrect.");
             }
             var data = _productService.GetProduct(productId);
-            if (data.Values == null)
+            if (data.Values.FirstOrDefault() == null)
             {
-                throw new Exception(data.Keys.FirstOrDefault());
+                return NotFound();
             }
             return Ok(data.Values);
         }
 
-        // POST api/values
         [HttpPost("addingreview")]
-        public ActionResult Post([FromBody] ReviewRequest requestData)
+        public ActionResult AddingReview([FromBody] ReviewRequest requestData)
         {
             if (requestData.ProductId == 0 || requestData.Rating == 0 || requestData.Comment == null || string.IsNullOrWhiteSpace(requestData.Email))
             {
@@ -61,6 +60,21 @@ namespace Xspera.Controllers
                 throw new Exception(data.Values.FirstOrDefault());
             }
             return Ok(data.Keys.FirstOrDefault());
+        }
+        [HttpPost("createprod")]
+        public ActionResult CreateProduct([FromBody] ProductRequest requestData)
+        {
+            //because availableStatus we use int instead of int? so we don't need set this data to request because its always 0 if we don't set it 
+            if (string.IsNullOrWhiteSpace(requestData.Name) || requestData.BrandId == 0 || requestData.UserId == 0 || requestData.Price == 0)
+            {
+                throw new Exception("request parameter incorrect.");
+            }
+            var data = _productService.CreateProduct(requestData);
+            if (data.ContainsKey(false))
+            {
+                throw new Exception(data.Values.FirstOrDefault());
+            }
+            return Ok(data.Values.FirstOrDefault());
         }
     }
 }

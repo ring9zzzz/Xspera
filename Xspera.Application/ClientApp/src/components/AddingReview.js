@@ -108,7 +108,7 @@ export class AddingReview extends Component {
         this.setState({ review: { ...this.state.review, ...obj } })
     }
     AddingReviewData() {
-        console.log(this);
+        //console.log(this);
         if (this.state.review.email.length === 0) {
             this.setState({ message: "Please fill the email before submit." })
             return;
@@ -141,17 +141,17 @@ export class AddingReview extends Component {
         }).then(response => response.json())
             .then(data => {
                 if (data === true) {
+                    this.props.history.push(`/product-list`);
+                } else {
                     this.refs.btn.removeAttribute("disabled");
-                    this.props.history.push(`/product-list`);   
+                    this.setState({ message: data })
                 }
-                this.setState({ message: data })
-              
             });
     }
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : Array.isArray(this.state.product) ? this.renderProduct(this.state) : <p><em>Data not found</em></p> ;
+            : Array.isArray(this.state.product) ? this.renderProduct(this.state) : <p><em>Data not found</em></p>;
 
         return (
             <div>
