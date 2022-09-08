@@ -1,1 +1,210 @@
-dsadasdasdas dalskdsaldsa
+@{
+    ViewData["Title"] = "Random member";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="input-group mb-3">
+  <span class="input-group-text" id="add-member">thêm vào random</span>
+  <input type="text" id="add-member-input" class="form-control" placeholder="Điền cái gì đó" aria-label="Điền cái gì đó" aria-describedby="basic-addon2">
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text" id="add-member">Team size</span>
+  <input type="text" pattern="[0-9]" value="2" maxlength="2" id="input-size" class="form-control" placeholder="Team size" aria-label="Team size" aria-describedby="basic-addon1">
+</div>
+
+<button type="button" class="btn btn-primary btn-lg btn-block" id="random">Random</button>
+
+<div class="display-flex">
+    <ul class="list-group" id="list-member">
+      <li class="list-group-item no-item">no item</li>
+    </ul>
+
+    <ul class="list-group" id="list-random-member">
+
+    </ul>
+</div>
+
+
+@section Scripts 
+{
+  <script type="text/javascript">
+    $("#add-member").on( "click", function(e) {
+       var val = $('#add-member-input').val();
+
+        if (se.validateName(val)) 
+        {
+           var content = '';
+
+           if (document.querySelectorAll('#list-member li.no-item').length > 0) {
+               document.querySelector('#list-member li.no-item').outerHTML = '';
+           } else if (document.querySelectorAll('#list-member li.list-group-item').length == 0) 
+           {
+                content = `<li class="list-group-item no-item">no item</li>`
+                $("#list-member").append(content); 
+           }
+
+            content = `<li class="list-group-item">${val} <i class="fa fa-remove"></i> </li>`
+
+           $("#list-member").append(content);
+
+            se.clear();
+            se.init();
+
+            $('#add-member-input').val('');
+        }       
+      
+    });
+
+    $("#input-size").on("change", function(e) {
+        se.validateNumber(e);
+    });
+
+$("#random").on("click", function(e) {
+
+    document.querySelector('#list-random-member').innerHTML = '';
+
+    var listItems = Array.prototype.slice.call(document.querySelectorAll('#list-member li'));
+
+    var randomObject = [];
+
+    var teamSize = $('#input-size').val();
+
+    var countLoop = Math.floor(listItems.length / teamSize);
+
+    var keepRandom;
+
+    for (let i = 0; i < countLoop; i++) {
+        randomObject[i] = [];
+    }
+
+    for (let i = 0; i < countLoop; i++) {
+
+        for (let m = 0; m < teamSize; m++) {
+            var number = Math.floor(Math.random() * listItems.length);
+            number = se.preventDuplicate(keepRandom, number, listItems.length)
+            keepRandom = number;
+
+            randomObject[i].push({
+                team: i + 1,
+                item: listItems[number]
+            });
+
+            listItems.splice(number, 1);
+        }
+
+        randomObject[i].forEach((x) => {
+
+            for (let n = 0; n < listItems.length; n++) {
+                if (listItems[n].textContent === x.item.textContent) {
+                    listItems.splice(n, 1);
+                }
+            }
+
+        });
+
+    }
+
+    randomObject.forEach((x, i) => {
+        var number = i + 1;
+
+        content = `<li class="list-group-item list-group-item-primary">Team ${number} </li>`
+
+        $("#list-random-member").append(content);
+
+        x.forEach((y) => {
+            content = `<li class="list-group-item list-group-item-light">Team ${y.item.textContent} </li>`
+
+            $("#list-random-member").append(content);
+        });
+
+    })
+
+    if (listItems.length > 0) 
+    {
+         content = `<li class="list-group-item list-group-item-primary"> Team dư </li>`
+
+        $("#list-random-member").append(content);
+
+         listItems.forEach((x, i) => {
+
+            content = `<li class="list-group-item list-group-item-light">Team ${x.textContent} </li>`
+
+            $("#list-random-member").append(content);
+        })
+    }  
+
+ });
+
+    const se = 
+    {
+        clear: function() 
+        {
+            $("#list-member li").off();
+        },
+
+        init: function() 
+        {
+            $("#list-member li").on("click",'i.fa-remove', function(e) {
+               var item = $($(e)[0].currentTarget).parent()
+                item.remove();
+
+                se.checkExistedItem();
+                
+            });        
+        },
+
+        checkExistedItem: function() 
+        {
+          if (document.querySelectorAll('#list-member li.list-group-item').length == 0) 
+           {
+                content = `<li class="list-group-item no-item">no item</li>`
+                $("#list-member").append(content); 
+
+              false;
+           }
+
+            return true;
+        },
+
+        validateNumber: function (e) 
+        {
+            var value = $($(e)[0].currentTarget).val();
+
+            if (isNaN(parseFloat(value))) 
+            {
+              alert("làm ơn chỉ nhập số nha.")
+              $($(e)[0].currentTarget).val(1);
+            }       
+              return ;
+        },
+
+        validateName: function (val) 
+        {
+            if (val && val.trim().length > 0) {              
+                return true;
+            } else 
+            {
+                alert("Không nhập khoảng trống.")
+                return false;              
+            }      
+        },
+
+        preventDuplicate: function(num1, num2,randomKey) 
+        {
+         
+            if (num1 == num2 && randomKey > 1) {   
+                
+                 number = Math.floor(Math.random() * randomKey);
+                 return se.preventDuplicate(num1, number, randomKey);
+              
+            } else 
+            {
+              return num2;
+            }   
+
+        }
+    }  
+
+ </script>  
+}
